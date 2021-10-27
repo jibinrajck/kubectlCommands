@@ -2,7 +2,7 @@ function listpods() {
   ns=${1:-default}
   label=${2:- }
   kubectl get pods -n ${ns} ${label} --no-headers -o wide | sort -nk 7b > /tmp/k1.txt
-  kubectl get nodes --no-headers -L bosh.id,spec.ip,failure-domain.beta.kubernetes.io/zone,pks-system/cluster.uuid|sort -nk 1b > /tmp/k2.txt
+  kubectl get nodes --no-headers -L failure-domain.beta.kubernetes.io/zone |sort -nk 1b > /tmp/k2.txt
   join -1 7 -2 1 -o "1.1 1.2 1.3 1.4 1.5 1.7 2.6 2.7 2.8 2.9" /tmp/k{1,2}.txt | \
     sed -e "1i\\
         NAME READY STATUS RESTARTS AGE NODE  ZONE " | \
